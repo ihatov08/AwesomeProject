@@ -1,35 +1,54 @@
 import React, { Component } from 'react';
-import { AppRegistry, Text, View } from 'react-native';
+import { Alert, AppRegistry, Button, StyleSheet, View } from 'react-native';
 
-class Blink extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {isShowingText: true};
-
-    setInterval(() => {
-      this.setState(previoutsState => {
-        return { isShowingText: !previoutsState.isShowingText };
-      });
-    }, 1000);
+export default class ButtonBasics extends Component {
+  _onPressButton() {
+    Alert.alert('You tapped the button!');
   }
 
   render() {
-    let display = this.state.isShowingText ? this.props.text : ' ';
     return (
-          <Text>{display}</Text>
-    );
-  }
-}
-
-export default class BlinkApp extends Component {
-  render() {
-    return (
-      <View>
-        <Blink text='I love to blink' />
-        <Blink text='Yes blinking is so great' />
-        <Blink text ='Why didi they ever take this out of HTML' />
-        <Blink text='Look at me look at me look at me' />
+      <View style={styles.container}>
+        <View style={styles.buttonContainer}>
+          <Button
+            onPress={this._onPressButton}
+            title="Press Me"
+            />
+        </View>
+        <View style={styles.buttonContainer}>
+          <Button
+            onPress={this._onPressButton}
+            title="Press Me"
+            color="#841584"
+            />
+        </View>
+        <View style={styles.alternativeLayoutButtonContainer}>
+          <Button
+            onPress={this._onPressButton}
+            title="this looks great!"
+            />
+          <Button
+            onPress={this._onPressButton}
+            title="OK"
+            color="#841584"
+            />
+        </View>
       </View>
     );
   }
 }
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    justifyContent: 'center',
+  },
+  buttonContainer: {
+    margin: 20
+  },
+  alternativeLayoutButtonContainer: {
+    margin: 20,
+    flexDirection: 'row',
+    justifyContent: 'space-between'
+  }
+});
