@@ -1,35 +1,66 @@
 import React, { Component } from 'react';
-import { AppRegistry, Text, View } from 'react-native';
+import { Alert, AppRegistry, Platform, StyleSheet, Text, TouchableHighlight, TouchableOpacity, TouchableNativeFeedback, TouchableWithoutFeedback, View } from 'react-native';
 
-class Blink extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {isShowingText: true};
-
-    setInterval(() => {
-      this.setState(previoutsState => {
-        return { isShowingText: !previoutsState.isShowingText };
-      });
-    }, 1000);
+export default class Touchables extends Component {
+  _onPressButton() {
+    Alert.alert('You tapped the button!');
   }
 
-  render() {
-    let display = this.state.isShowingText ? this.props.text : ' ';
-    return (
-          <Text>{display}</Text>
-    );
+  _onLongPressButton() {
+    Alert.alert('You long-pressed the button!');
   }
-}
 
-export default class BlinkApp extends Component {
+
   render() {
     return (
-      <View>
-        <Blink text='I love to blink' />
-        <Blink text='Yes blinking is so great' />
-        <Blink text ='Why didi they ever take this out of HTML' />
-        <Blink text='Look at me look at me look at me' />
+      <View style={styles.container}>
+        <TouchableHighlight onPress={this._onPressButton} underlayColor="white">
+          <View style={styles.button}>
+            <Text style={styles.buttonText}>TouchableHighlight</Text>
+          </View>
+        </TouchableHighlight>
+        <TouchableOpacity onPress={this._onPressButton}>
+          <View style={styles.button}>
+            <Text style={styles.buttonText}>TouchableOpacity</Text>
+          </View>
+        </TouchableOpacity>
+        <TouchableNativeFeedback
+            onPress={this._onPressButton}
+            background={Platform.OS === 'android' ? TouchableNativeFeedback.SelectableBackground() : ''}>
+          <View style={styles.button}>
+            <Text style={styles.buttonText}>TouchableNativeFeedback</Text>
+          </View>
+        </TouchableNativeFeedback>
+        <TouchableWithoutFeedback
+            onPress={this._onPressButton}
+            >
+          <View style={styles.button}>
+            <Text style={styles.buttonText}>TouchableWithoutFeedback</Text>
+          </View>
+        </TouchableWithoutFeedback>
+        <TouchableHighlight onPress={this._onPressButton} onLongPress={this._onLongPressButton} underlayColor="white">
+          <View style={styles.button}>
+            <Text style={styles.buttonText}>Touchable with Long Press</Text>
+          </View>
+        </TouchableHighlight>
       </View>
     );
   }
 }
+
+const styles = StyleSheet.create({
+  container: {
+    paddingTop: 60,
+    alignItems: 'center'
+  },
+  button: {
+    marginBottom: 30,
+    width: 260,
+    alignItems: 'center',
+    backgroundColor: '#2196F3'
+  },
+  buttonText: {
+    padding: 20,
+    color: 'white'
+  }
+})
